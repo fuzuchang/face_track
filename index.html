@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html> 
+	<head>
+        <meta charset="utf-8" />
+        <title></title>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>BRFv4 - example chooser</title>
+
+        <script>
+
+            var obsDrawPoints = {};
+
+            function dd(arg) {
+                console.info(arg);
+            }
+
+            // namespace for the library (mandatory)
+            var brfv4 = {
+                // necessary for emscripten to load the mem file
+                locateFile: function(fileName) { return "js/lib/brf/" + fileName; },
+                // necessary only for the example preloader to have progress listener
+                memoryInitializerRequest: {
+                    response: null, status: 200, callback: null,
+                    addEventListener: function(type, callback) {
+                        brfv4.memoryInitializerRequest.callback = callback;
+                    }
+                }
+            };
+
+            // namespace for example related stuff, eg. the preloader
+            brfv4.example = {};
+
+            function start() {
+                brfv4.example.preload([
+                    {
+                        id: "memFile", "type":createjs.AbstractLoader.BINARY,
+                        "src": "js/lib/brf/BRFv4_JS_TK230217_4.0b8_trial.js.mem"
+                    },
+                    "js/lib/brf/BRFv4_JS_TK230217_4.0b8_trial.js",
+                    "https://webrtc.github.io/adapter/adapter-latest.js",
+
+
+                    "js/lib/createjs/easeljs-0.8.2.min.js",
+                    "js/utils/BRFv4DrawingUtils_CreateJS.js",
+
+                    "js/lib/threejs/three.js",
+                    "js/lib/threejs/renderers/CanvasRenderer.js",
+                    "js/lib/threejs/renderers/Projector.js",
+                    "js/utils/BRFv4ThreeJSUtils.js",
+                    "js/utils/BRFv4WebcamUtils.js",
+                    "js/utils/BRFv4SDKUtils.js",
+                    "js/utils/BRFv4PointUtils.js",
+//                    "js/utils/BRFv4Stats.js",
+
+                    "js/setup/base.js",
+                    "js/setup/point.js",
+                    "js/utils/BRFv4ModelChooser.js"
+
+                ], function() {
+                    brfv4.example.setupWebcamExample();
+                });
+            }
+        </script>
+
+        <script src="js/lib/createjs/preloadjs-0.6.2.min.js"></script>
+        <script src="js/utils/BRFv4Preloader.js"></script>
+        <script src="js/drawPoint.js"></script>
+        <script>
+
+            if (typeof window.obsstudio != 'undefined'){
+                window.obsstudio.facePoint = function(data) {
+                    DrawPoint.clearPoint();
+                    obsDrawPoints = JSON.parse(data);
+                };
+            }else{
+                $.get("face.json",function (data) {
+                    obsDrawPoints = JSON.parse(data);
+                })
+            }
+        </script>
+
+    </head>
+    <body onload="start();">
+
+    <div id="_wrapper">
+        <canvas id="_imageData"></canvas>
+        <canvas id="_threejs"></canvas>
+        <canvas id="_drawing"></canvas>
+        <canvas id="myCanvas"></canvas>
+    </div>
+
+
+    </body>
+</html>
