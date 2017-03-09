@@ -14,7 +14,7 @@ function setupExample() {
 			// Remove all models that might be present and load the models you want.
 
 			_threejsUtils.removeAll();
-			_threejsUtils.loadOcclusionHead("assets/occlusion_head.json", numFacesToTrack);
+			// _threejsUtils.loadOcclusionHead("assets/occlusion_head.json", numFacesToTrack);
 			_threejsUtils.loadModel("assets/model.json", numFacesToTrack);
 		}
 	}
@@ -55,7 +55,7 @@ function setupExample() {
 					vertices.push(x);
 					vertices.push(y);
 
-					DrawPoint.setPoint(x,y);
+					// DrawPoint.setPoint(x,y);
 				}
 				//绘制三角形点
 				// draw.drawTrianglesAsPoints(vertices, 2.0, false, 0x00a0ff, 0.4);

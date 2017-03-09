@@ -11,7 +11,7 @@ var brfv4 = brfv4 || {};
 			this.stage.width  / -2, this.stage.width  / 2,
 			this.stage.height /  2, this.stage.height / -2,  50, 10000 );
 
-		this.renderer		= new THREE.CanvasRenderer(
+		this.renderer		= new THREE.WebGLRenderer(
 			{alpha: true, canvas: this.stage, antialias: false});
 
 		this.pointLight		= new THREE.PointLight(0xffffff, 0.75, 10000);

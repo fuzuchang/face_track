@@ -1,0 +1,80 @@
+<!DOCTYPE html> 
+<html> 
+	<head>
+        <meta charset="utf-8" />
+        <title></title>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+        <title>BRFv4 - example chooser</title>
+
+        <script>
+
+            var obsDrawPoints = {};
+
+            function dd(arg) {
+                console.info(arg);
+            }
+
+        </script>
+
+        <script src="js/drawPoint.js"></script>
+        <script src="js/lib/threejs/three.js"></script>
+        <script>
+
+            if (typeof window.obsstudio != 'undefined'){
+                window.obsstudio.facePoint = function(data) {
+                    DrawPoint.clearPoint();
+                    obsDrawPoints = JSON.parse(data);
+                };
+            }else{
+                $.get("face.json",function (data) {
+                    obsDrawPoints = JSON.parse(data);
+
+                    render();
+                });
+            }
+
+
+           /* setInterval(function () {
+                render();
+            },1000);*/
+
+            function render() {
+
+                DrawPoint.clearPoint();
+
+//                requestAnimationFrame(render);
+
+                if( typeof obsDrawPoints.face != "undefined") {
+                    var faces = obsDrawPoints;
+                    var numFaces = faces.face.length;
+                    for(var i = 0; i < numFaces; i++) {
+//                        var  vertices = [];
+                        var  pointsLen = faces.face[i].facePoint.length;
+                        for (var j = 0 ; j < pointsLen ;j ++ ){
+                            var x = faces.face[i].facePoint[j].x;
+                            var y = faces.face[i].facePoint[j].y;
+                            /*vertices.push(x);
+                            vertices.push(y);*/
+                            DrawPoint.setPoint(x,y);
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
+        </script>
+
+    </head>
+    <body >
+
+
+    <canvas id="myCanvas" style="width: 1920px;height: 1080px"></canvas>
+
+
+    </body>
+</html>
